@@ -39,8 +39,11 @@
 
 <div id="calculator">
     <h2>한국 만 나이 계산기</h2>
-    <label for="birthDate">생년월일(6자리):</label>
-    <input type="number" id="birthDate" placeholder="YYMMDD" required>
+    <label for="birthDate">생일:</label>
+    <input type="date" id="birthDate" required>
+
+    <label for="referenceDate">기준일:</label>
+    <input type="date" id="referenceDate" value="<?php echo date('Y-m-d'); ?>" required>
 
     <button onclick="calculateAge()">나이 계산</button>
 
@@ -50,27 +53,19 @@
 <script>
     function calculateAge() {
         var birthDateInput = document.getElementById('birthDate').value;
-        
-        // Ensure input is a 6-digit number
-        if (/^\d{6}$/.test(birthDateInput)) {
-            var birthYear = parseInt(birthDateInput.substr(0, 2), 10);
-            var birthMonth = parseInt(birthDateInput.substr(2, 2), 10);
-            var birthDay = parseInt(birthDateInput.substr(4, 2), 10);
+        var referenceDateInput = document.getElementById('referenceDate').value;
 
-            var currentDate = new Date();
-            var birthDate = new Date(2000 + birthYear, birthMonth - 1, birthDay);
+        var currentDate = new Date(referenceDateInput);
+        var birthDate = new Date(birthDateInput);
 
-            var age = currentDate.getFullYear() - birthDate.getFullYear();
+        var age = currentDate.getFullYear() - birthDate.getFullYear();
 
-            if (currentDate.getMonth() < birthDate.getMonth() ||
-                (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            document.getElementById('result').innerHTML = '만 ' + age + '세';
-        } else {
-            document.getElementById('result').innerHTML = '유효한 6자리 숫자를 입력하세요.';
+        if (currentDate.getMonth() < birthDate.getMonth() ||
+            (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+            age--;
         }
+
+        document.getElementById('result').innerHTML = '만 ' + age + '세';
     }
 </script>
 
