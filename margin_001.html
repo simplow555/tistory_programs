@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마진율 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #calculator {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <h2>마진율 계산기</h2>
+    <label for="purchasePrice">제품 소싱 가격:</label>
+    <input type="number" id="purchasePrice" placeholder="구매 가격을 입력하세요">
+
+    <label for="sellingPrice">소비자 판매 가격:</label>
+    <input type="number" id="sellingPrice" placeholder="판매 가격을 입력하세요">
+
+    <button onclick="calculateMargin()">마진율 계산</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateMargin() {
+        var purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
+        var sellingPrice = parseFloat(document.getElementById('sellingPrice').value);
+
+        if (!isNaN(purchasePrice) && !isNaN(sellingPrice)) {
+            var margin = ((sellingPrice - purchasePrice) / purchasePrice) * 100;
+            document.getElementById('result').innerHTML = '마진율: ' + margin.toFixed(2) + '%';
+        } else {
+            document.getElementById('result').innerHTML = '유효한 숫자를 입력하세요.';
+        }
+    }
+</script>
+
+</body>
+</html>
