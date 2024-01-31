@@ -65,8 +65,8 @@
             }
 
             document.getElementById('result').innerHTML = `
-                할인 후 가격: ${numberWithCommas(discountedPrice.toFixed())}원<br>
-                절약한 금액: ${numberWithCommas(savings.toFixed())}원
+                할인 후 가격: ${numberWithCommas(discountedPrice.toFixed(0))}원<br>
+                절약한 금액: ${numberWithCommas(savings.toFixed(0))}원
             `;
         } else {
             document.getElementById('result').innerHTML = '올바른 숫자를 입력하세요.';
