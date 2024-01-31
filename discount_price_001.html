@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인가격 계산기</title>
+    <title>할인율 계산기</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,14 +38,14 @@
 <body>
 
 <div id="calculator">
-    <h2>할인가격 계산기</h2>
+    <h2>할인율 계산기</h2>
     <label for="originalPrice">원래 가격:</label>
     <input type="number" id="originalPrice" placeholder="금액 입력" required>
 
     <label for="discountPercentage">할인율(%):</label>
     <input type="number" id="discountPercentage" placeholder="할인율 입력" required>
 
-    <button onclick="calculateDiscount()">할인가격 계산</button>
+    <button onclick="calculateDiscount()">할인 계산</button>
 
     <div id="result"></div>
 </div>
@@ -59,9 +59,14 @@
             var discountedPrice = originalPrice - (originalPrice * (discountPercentage / 100));
             var savings = originalPrice - discountedPrice;
 
+            // 천단위 콤마 함수 적용
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
             document.getElementById('result').innerHTML = `
-                할인 후 가격: ${discountedPrice.toFixed()}원<br>
-                절약한 금액: ${savings.toFixed()}원
+                할인 후 가격: ${numberWithCommas(discountedPrice.toFixed())}원<br>
+                절약한 금액: ${numberWithCommas(savings.toFixed())}원
             `;
         } else {
             document.getElementById('result').innerHTML = '올바른 숫자를 입력하세요.';
