@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 14001 주차 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #calculator {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            white-space: pre-line; /* 줄바꿈을 적용하기 위한 CSS 속성 */
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <h2>ISO 14001 주차 계산기</h2>
+    <label for="referenceDate">기준일:</label>
+    <input type="date" id="referenceDate" value="<?php echo date('Y-m-d'); ?>" required>
+
+    <button onclick="calculateISOWeek()">주차 계산</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateISOWeek() {
+        var referenceDateInput = document.getElementById('referenceDate').value;
+        var referenceDate = new Date(referenceDateInput);
+
+        // ISO 8601 주차 계산
+        Date.prototype.getISOWeek = function () {
+            var date = new Date(this.getTime());
+            date.setHours(0, 0, 0, 0);
+            date.setDate(date.getDate() + 4 - (date.getDay() || 7));
+            var yearStart = new Date(date.getFullYear(), 0, 1);
+            var weekNumber = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+            return weekNumber;
+        };
+
+        var isoWeek = referenceDate.getISOWeek();
+        
+        // 해당 월, 몇 주차인지 계산
+        var year = referenceDate.getFullYear();
+        var month = referenceDate.getMonth() + 1;
+
+        var firstDayOfMonth = new Date(year, month - 1, 1);
+        var firstISOWeek = firstDayOfMonth.getISOWeek();
+        var currentISOWeek = isoWeek - firstISOWeek + 1;
+
+        document.getElementById('result').innerHTML = `
+            기준일(${referenceDateInput})은
+            ${year}년 ${month}월 ${currentISOWeek}주차에 해당합니다.
+            년도 기준 ${isoWeek}주차에 위치합니다.
+        `;
+    }
+</script>
+
+</body>
+</html>
